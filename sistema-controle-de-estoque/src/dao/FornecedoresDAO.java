@@ -38,7 +38,7 @@ public class FornecedoresDAO {
             stmt.setString(10, fornecedor.getCidade());
             stmt.setString(11, fornecedor.getEstado());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Fornecedor salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
@@ -170,7 +170,7 @@ public class FornecedoresDAO {
             stmt.setString(11, fornecedor.getEstado());
             stmt.setInt(12, fornecedor.getId());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Fornecedor editado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
@@ -186,7 +186,7 @@ public class FornecedoresDAO {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, fornecedor.getId());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Fornecedor excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {

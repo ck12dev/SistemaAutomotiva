@@ -35,7 +35,7 @@ public class PecasDAO {
             stmt.setDouble(5, peca.getValorUnidadeFornecedor());
             stmt.setDouble(6, peca.getValorUnidadeCliente());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Peça salva com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
@@ -61,7 +61,7 @@ public class PecasDAO {
             stmt.setDouble(6, peca.getValorUnidadeCliente());
             stmt.setInt(7, peca.getId());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Peça editada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
@@ -78,7 +78,7 @@ public class PecasDAO {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, peca.getId());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Peça excluída com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
@@ -149,7 +149,7 @@ public class PecasDAO {
             }
         } catch (SQLException e) {
             // exibe a mensagem caso ocorra um erro na consulta ao banco
-            JOptionPane.showMessageDialog(null, "Peça não cadastrada.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Peça não cadastrada." + e.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         }
         return null;
     }
@@ -184,7 +184,7 @@ public class PecasDAO {
 
         } catch (SQLException e) {
             // exibe a mensagem caso ocorra um erro na consulta ao banco
-            JOptionPane.showMessageDialog(null, "Erro ao criar a lista de clientes.");
+            JOptionPane.showMessageDialog(null, "Erro ao criar a lista de peças." + e.getMessage());
         }
         return lista;
     }
@@ -197,7 +197,7 @@ public class PecasDAO {
             stmt.setInt(1, qtdNova);
             stmt.setInt(2, id);
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Quantidade alterada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {

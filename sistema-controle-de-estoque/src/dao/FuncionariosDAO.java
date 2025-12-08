@@ -43,7 +43,7 @@ public class FuncionariosDAO {
             stmt.setString(14, funcionario.getSenha());
             stmt.setString(15, funcionario.getNivelAcesso().name());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Funcionário salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
@@ -95,7 +95,7 @@ public class FuncionariosDAO {
 
         } catch (SQLException e) {
             // exibe a mensagem em caso de erro
-            JOptionPane.showMessageDialog(null, "Funcionário não cadastrado!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Funcionário não cadastrado! " + e.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         }
         return null;
     }
@@ -223,7 +223,7 @@ public class FuncionariosDAO {
             stmt.setString(15, funcionario.getNivelAcesso().name());
             stmt.setInt(16, funcionario.getId());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Funcionário editado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);            
         } catch (SQLException e) {
@@ -240,7 +240,7 @@ public class FuncionariosDAO {
         try (PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setInt(1, funcionario.getId());
             //executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Funcionário excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {

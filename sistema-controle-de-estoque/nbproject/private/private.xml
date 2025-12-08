@@ -4,12 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Cliente/Documents/GitHubPessoal/sistema-controle-estoque/sistema-controle-de-estoque/src/model/Pedidos.java</file>
-            <file>file:/C:/Users/Cliente/Documents/GitHubPessoal/sistema-controle-estoque/sistema-controle-de-estoque/src/dao/PedidosDAO.java</file>
+            <file>file:/C:/Users/Cliente/Documents/GitHubPessoal/sistema-controle-estoque/sistema-controle-de-estoque/src/gui/TelaFormularioPecas.java</file>
             <file>file:/C:/Users/Cliente/Documents/GitHubPessoal/sistema-controle-estoque/sistema-controle-de-estoque/src/gui/TelaFormularioOS.java</file>
             <file>file:/C:/Users/Cliente/Documents/GitHubPessoal/sistema-controle-estoque/sistema-controle-de-estoque/src/dao/OrdemDeServicoDAO.java</file>
             <file>file:/C:/Users/Cliente/Documents/GitHubPessoal/sistema-controle-estoque/sistema-controle-de-estoque/src/gui/TelaFormularioPedidos.java</file>
-            <file>file:/C:/Users/Cliente/Documents/GitHubPessoal/sistema-controle-estoque/sistema-controle-de-estoque/src/dao/PecasDAO.java</file>
+            <file>file:/C:/Users/Cliente/Documents/GitHubPessoal/sistema-controle-estoque/sistema-controle-de-estoque/src/model/Fornecedores.java</file>
             <file>file:/C:/Users/Cliente/Documents/GitHubPessoal/sistema-controle-estoque/sistema-controle-de-estoque/src/model/OrdemDeServico.java</file>
+            <file>file:/C:/Users/Cliente/Documents/GitHubPessoal/sistema-controle-estoque/sistema-controle-de-estoque/src/utilidades/LimpaComponente.java</file>
         </group>
     </open-files>
 </project-private>

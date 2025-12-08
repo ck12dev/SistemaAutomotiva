@@ -2,7 +2,7 @@ package model;
 
 import java.util.Date;
 
-public class PessoaFisica extends Pessoa {
+public abstract class PessoaFisica extends Pessoa {
     
     // atributos encapsulados da entidade PessoaFisica
     private Date dataNascimento;

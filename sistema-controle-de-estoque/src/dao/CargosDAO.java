@@ -25,7 +25,7 @@ public class CargosDAO {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, cargo.getNome());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso 
             JOptionPane.showMessageDialog(null, "Cargo salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
@@ -67,7 +67,7 @@ public class CargosDAO {
             stmt.setString(1, cargo.getNome());
             stmt.setInt(2, cargo.getId());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso            
             JOptionPane.showMessageDialog(null, "Cargo editado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
@@ -84,7 +84,7 @@ public class CargosDAO {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, cargo.getId());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso 
             JOptionPane.showMessageDialog(null, "Cargo excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {

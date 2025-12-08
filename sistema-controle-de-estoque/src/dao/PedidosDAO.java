@@ -32,7 +32,7 @@ public class PedidosDAO {
             stmt.setDouble(3, pedido.getValorTotal());
             stmt.setString(4, pedido.getStatus().name());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Pedido efetuado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {

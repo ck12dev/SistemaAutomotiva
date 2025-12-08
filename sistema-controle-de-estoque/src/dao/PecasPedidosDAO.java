@@ -20,13 +20,13 @@ public class PecasPedidosDAO {
     
     public void salvar(PecasPedidos pecasPedidos) {
         String sql = "insert into pecas_pedidos (id_peca, id_pedido, quantidade, subtotal)"
-                + "value (?, ?, ?, ?)";
+                + "values (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, pecasPedidos.getPeca().getId());
             stmt.setInt(2, pecasPedidos.getPedido().getId());
             stmt.setInt(3, pecasPedidos.getQuantidade());
             stmt.setDouble(4, pecasPedidos.getSubtotal());
-            stmt.execute();
+            stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao salvar os itens do pedido!");
         }
@@ -48,7 +48,7 @@ public class PecasPedidosDAO {
                 item.setPeca(peca);
                 
                 item.setQuantidade(rs.getInt("quantidade"));
-                item.setSubtotal(rs.getInt("subtotal"));
+                item.setSubtotal(rs.getDouble("subtotal"));
                 
                 lista.add(item);
             }            

@@ -39,7 +39,7 @@ public class ClientesDAO {
             stmt.setString(11, cliente.getCidade());
             stmt.setString(12, cliente.getEstado());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException erro) {
@@ -205,7 +205,7 @@ public class ClientesDAO {
             stmt.setString(12, cliente.getEstado());
             stmt.setInt(13, cliente.getId());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Cliente editado com sucesso!");
         } catch (SQLException erro) {
@@ -221,7 +221,7 @@ public class ClientesDAO {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, cliente.getId());
             // executa o comando sql
-            stmt.execute();
+            stmt.executeUpdate();
             // exibe a mensagem em caso de sucesso
             JOptionPane.showMessageDialog(null, "Cliente excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {

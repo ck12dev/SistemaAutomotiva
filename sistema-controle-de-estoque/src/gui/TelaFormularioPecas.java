@@ -2,10 +2,14 @@ package gui;
 
 import dao.FornecedoresDAO;
 import dao.PecasDAO;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import jdbc.MySQLConnection;
 import model.Fornecedores;
@@ -17,7 +21,7 @@ public class TelaFormularioPecas extends javax.swing.JFrame {
     private final LimpaComponente limpar = new LimpaComponente();
     private boolean fornecedoresCarregados = false;
     private final Connection conn;
-    
+
     // carrega e exibe as peças na tabela
     public void listar() {
         PecasDAO pecasDao = new PecasDAO(conn);
@@ -36,6 +40,31 @@ public class TelaFormularioPecas extends javax.swing.JFrame {
 
             });
         }
+    }
+
+    public boolean verificarCamposPreenchidos(Container container) {
+        Component componentes[] = container.getComponents();
+        for (Component componente : componentes) {
+            String texto;
+            if (componente instanceof JTextField jTextField) {
+                if (!jTextField.isEnabled() || !jTextField.isEditable()) {
+                    continue;
+                }
+                texto = jTextField.getText();
+                if (texto == null || texto.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campos obrigatórios não preenchidos!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    return false;
+                }                
+            }
+            if (componente instanceof JComboBox jComboBox) {
+                texto = jComboBox.getSelectedItem().toString();
+                if (texto == null || texto.trim().isEmpty() || texto.equals("Selecione o Fornecedor")) {
+                    JOptionPane.showMessageDialog(null, "Necessário selecionar o fornecedor.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public TelaFormularioPecas(Connection conn) {
@@ -457,6 +486,9 @@ public class TelaFormularioPecas extends javax.swing.JFrame {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         // cadastra a peça no banco de dados e limpa os campos de texto
+        if (!verificarCamposPreenchidos(pnlDadosPecas)) {
+            return;
+        }
         Pecas peca = new Pecas();
 
         Fornecedores fornecedor = (Fornecedores) cbFornecedor.getSelectedItem();
@@ -588,6 +620,9 @@ public class TelaFormularioPecas extends javax.swing.JFrame {
             FornecedoresDAO fornecedoresDao = new FornecedoresDAO(conn);
             List<Fornecedores> lista = fornecedoresDao.listar();
             cbFornecedor.removeAllItems();
+            Fornecedores placeholder = new Fornecedores();
+            placeholder.setRazaoSocial("Selecione o Fornecedor");
+            cbFornecedor.addItem(placeholder);
             for (Fornecedores f : lista) {
                 cbFornecedor.addItem(f);
             }
