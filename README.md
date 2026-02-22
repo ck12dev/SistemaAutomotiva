@@ -1,7 +1,8 @@
 # Projeto de Controle de Estoque para Oficina Mecânica
+  Sistema desktop de controle de estoque para oficina mecânica. Implementa cadastro completo de usuários e peças, controle de movimentações, persistência em banco de dados e interface gráfica em Java Swing.
   Este é um sistema desktop desenvolvido em **Java (Swing)** com conexão a um banco de dados **MySQL**, utilizando **XAMPP** como ambiente local de desenvolvimento.
 
-## Ferramentas
+## Tecnologias
  - NetBeans IDE
  - JDK 23
  - JavaSwing
@@ -11,14 +12,13 @@
  - Dotenv (Opcional)
 
 ## Funcionalidades
- - Tela de Login
- - Tela de Area de Tabalho
- - Cadastro de Clientes
- - Cadastro de Cargos
- - Cadastro de Funcionários
- - Cadastro de Fornecedores
- - Cadastro de Peças
- - Tela de Controle de Estoque
+ - Autenticação de usuários com validação de credenciais armazenadas no MySQL.
+ - Cadastro, edição e remoção de peças com persistência em banco de dados.
+ - Validação de campos obrigatórios antes da persistência.
+ - Controle básico de usuários (cadastro e autenticação).
+ - Tratamento básico de exceções SQL durante operações de persistência.
+ - Registro de entradas e saídas de estoque com atualização automática da quantidade disponível.
+ - Implementação de regra que impede saída de estoque superior à quantidade cadastrada.
 
  ## Requisitos
  - [XAMPP](https://www.apachefriends.org/pt_br/index.html) instalado e rodando (Apache + MySQL).
@@ -89,6 +89,6 @@ Ao executar o projeto você entrará na tela de login, insira o email e senha do
   <img src="https://github.com/user-attachments/assets/a6fb05b2-afe3-4091-866c-8a0a8369f346" />
 </div>
 
-**ATENÇÃO**  
--- Projeto em andamento.  
+## Status do Projeto  
+-- Projeto em andamento - funcionalidades básicas implementadas.  
 -- README ainda sendo atualizado conforme updates.
