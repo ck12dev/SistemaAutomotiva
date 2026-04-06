@@ -5,10 +5,14 @@ import dao.FuncionariosDAO;
 import dao.PecasDAO;
 import java.awt.event.ItemEvent;
 import java.sql.Connection;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import jdbc.MySQLConnection;
 import model.Clientes;
 import model.Funcionarios;
@@ -25,7 +29,22 @@ public class TelaFormularioOS extends javax.swing.JFrame {
     private final Connection conn;
     
     double valorCliente, subtotal;
+    DefaultTableModel listaPecas;
     List<Integer> idPecaTabela = new ArrayList<>();
+    
+    private String calcularSubtotal() {
+        int qtdOS = Integer.parseInt(txtQuantidade.getText());
+        double subtotalPeca = valorCliente * qtdOS;
+        
+        DecimalFormatSymbols dataBase = new DecimalFormatSymbols(Locale.US); 
+        DecimalFormat df = new DecimalFormat("0.00", dataBase); 
+        String valorFormatadoTexto = df.format(subtotalPeca); 
+        return valorFormatadoTexto;
+    }
+    
+    private double arredondar(double valor) {
+        return Math.round(valor * 100.0) / 100.0;
+    }
 
     public TelaFormularioOS(Connection conn) {
         initComponents();
@@ -720,13 +739,14 @@ public class TelaFormularioOS extends javax.swing.JFrame {
     }//GEN-LAST:event_cbPecaItemStateChanged
 
     private void btnAdicionarPecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarPecaActionPerformed
-        String nome = cbPeca.getSelectedItem().toString();
+        String nomePeca = cbPeca.getSelectedItem().toString();
         PecasDAO pecasDao = new PecasDAO(conn);
-        Pecas peca = pecasDao.buscarPeca(nome);
+        Pecas peca = pecasDao.buscarPeca(nomePeca);
         
         if (peca != null) {
             int idPeca = peca.getId();
             boolean temNaTabela = idPecaTabela.contains(idPeca);
+            String nomeFornecedor = txtFornecedor.getText();
             String qtd = txtQuantidade.getText();
             
             if (qtd.isEmpty()) {
@@ -734,7 +754,39 @@ public class TelaFormularioOS extends javax.swing.JFrame {
                 return;
             }
             
+            subtotal = arredondar(Double.parseDouble(calcularSubtotal()));            
+            
+            listaPecas = (DefaultTableModel) tabelaPecas.getModel();
+            DecimalFormat df = new DecimalFormat("0.00");
+            
+            if (!temNaTabela) {
+                idPecaTabela.add(idPeca);
+                listaPecas.addRow(new Object[]{
+                    nomePeca,
+                    nomeFornecedor,
+                    qtd,
+                    df.format(valorCliente),
+                    df.format(subtotal)
+                });
+            } else {
+                for (int i = 0, linhasNaTabela = listaPecas.getRowCount(); i < linhasNaTabela; i++) {
+                    String nomeNaTabela = tabelaPecas.getValueAt(i, 0).toString();
+                    
+                    if (nomeNaTabela.equals(nomePeca)) {
+                        int qtdAtual = Integer.parseInt(tabelaPecas.getValueAt(i, 2).toString());
+                        int qtdNova = qtdAtual + Integer.parseInt(qtd);
+                        
+                        subtotal = arredondar(valorCliente * qtdNova);
+                        
+                        tabelaPecas.setValueAt(qtdNova, i, 2);
+                        tabelaPecas.setValueAt(df.format(subtotal), i, 4);
+                        break;
+                    }
+                }
+            }
+            
         }
+        limpar.limparCampos(pnlPecasUtilizadas);
     }//GEN-LAST:event_btnAdicionarPecaActionPerformed
 
     private void txtQuantidadeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantidadeKeyReleased
@@ -790,6 +842,7 @@ public class TelaFormularioOS extends javax.swing.JFrame {
                     Connection conn = MySQLConnection.getConnection();
                     new TelaFormularioOS(conn).setVisible(true);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });

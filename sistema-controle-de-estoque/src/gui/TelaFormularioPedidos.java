@@ -81,19 +81,19 @@ public class TelaFormularioPedidos extends javax.swing.JFrame {
     public void listarPecasFornecedor() {
 
     }
-    
+
     public void limparTudo() {
         limpar.limparTabela(tabelaCarrinho);
         limpar.limparTabela(tabelaPecasFornecedor);
         limpar.limparCampos(panelPedido);
         limpar.limparCampos(panelDadosPeca);
         limpar.limparCampos(panelDadosFornecedor);
-        
+
         subtotal = 0;
         total = 0;
         idFornecedorCarrinho = 0;
         idPecaTabela.clear();
-        
+
         cbNomeFornecedor.setEnabled(true);
         cbNomeFornecedor.setSelectedIndex(0);
     }
@@ -670,14 +670,16 @@ public class TelaFormularioPedidos extends javax.swing.JFrame {
                 idFornecedorCarrinho = idFornecedor;
             }
             // pega o valor total da peça e soma ao total
-            subtotal = Double.parseDouble(txtValorTotalPeca.getText());
+            subtotal = Math.round(Double.parseDouble(txtValorTotalPeca.getText()) * 100.0) / 100.0;
             total += subtotal;
             calcularValorTotalPedido(total);
+
+            meuPedido = (DefaultTableModel) tabelaCarrinho.getModel();
+
             // adiciona a nova peça no carrinho e atualiza o valor total do pedido
             if (idFornecedorPeca == idFornecedorCarrinho && !temNoCarrinho) {
                 txtTotalPedido.setText(String.valueOf(total));
                 idPecaTabela.add(idPeca);
-                meuPedido = (DefaultTableModel) tabelaCarrinho.getModel();
                 meuPedido.addRow(new Object[]{
                     txtIdPeca.getText(),
                     txtNomePeca.getText(),
@@ -685,21 +687,21 @@ public class TelaFormularioPedidos extends javax.swing.JFrame {
                     txtPrecoUnidadeFornecedor.getText(),
                     subtotal
                 });
-            // se a peça já estiver no carrinho, atualiza a quantidade e subtotal
+                // se a peça já estiver no carrinho, atualiza a quantidade e subtotal
             } else if (temNoCarrinho) {
-                meuPedido = (DefaultTableModel) tabelaCarrinho.getModel();
                 // percorre as linhas na tabela
                 for (int i = 0, linhasNaTabela = meuPedido.getRowCount(); i < linhasNaTabela; i++) {
                     int idNaTabela = Integer.parseInt(meuPedido.getValueAt(i, 0).toString());
                     // verifica se o id da peça corresponde ao id da peça no carrinho e atualiza os dados
                     if (idNaTabela == idPeca) {
                         int qtdAtual = Integer.parseInt(meuPedido.getValueAt(i, 2).toString());
-                        int qtdNova = qtdAtual + Integer.parseInt(txtQtdPedido.getText());
+                        int qtdNova = qtdAtual + Integer.parseInt(qtd);
                         meuPedido.setValueAt(qtdNova, i, 2);
 
-                        double subtotalNaLista = Double.parseDouble(meuPedido.getValueAt(i, 4).toString());
-                        subtotal += subtotalNaLista;
-                        meuPedido.setValueAt(subtotal, i, 4);
+                        double precoUnitario = Double.parseDouble(meuPedido.getValueAt(i, 3).toString());
+                        double novoSubtotal = qtdNova * precoUnitario;
+                        novoSubtotal = Math.round(novoSubtotal * 100.0) / 100.0;
+                        meuPedido.setValueAt(novoSubtotal, i, 4);
                         break;
                     }
                 }
@@ -731,38 +733,38 @@ public class TelaFormularioPedidos extends javax.swing.JFrame {
 
     private void btnFazerPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFazerPedidoActionPerformed
         Pedidos pedido = new Pedidos();
-        Fornecedores fornecedor = (Fornecedores) cbNomeFornecedor.getSelectedItem();      
+        Fornecedores fornecedor = (Fornecedores) cbNomeFornecedor.getSelectedItem();
         pedido.setFornecedor(fornecedor);
-        
-        Date agora = new Date();        
+
+        Date agora = new Date();
         pedido.setData(agora);
-        
+
         pedido.setValorTotal(total);
         pedido.setStatus(Pedidos.Status.PENDENTE);
-        
+
         PedidosDAO pedidosDao = new PedidosDAO(conn);
         pedidosDao.salvar(pedido);
         pedido.setId(pedidosDao.retornaUltimoIdVenda());
         JOptionPane.showMessageDialog(null, "ID do último pedido!" + pedido.getId());
-        
+
         int quantidadeItensCarrinho = meuPedido.getRowCount();
-        for (int i = 0; i < quantidadeItensCarrinho; i++) {            
+        for (int i = 0; i < quantidadeItensCarrinho; i++) {
             Pecas peca = new Pecas();
             PecasPedidos item = new PecasPedidos();
-            
+
             item.setPedido(pedido);
             peca.setId(Integer.parseInt(meuPedido.getValueAt(i, 0).toString()));
-            
+
             item.setPeca(peca);
             item.setQuantidade(Integer.parseInt(meuPedido.getValueAt(i, 2).toString()));
-            
+
             item.setSubtotal(Double.parseDouble(meuPedido.getValueAt(i, 4).toString()));
-            
+
             PecasPedidosDAO pecasPedidosDao = new PecasPedidosDAO(conn);
             pecasPedidosDao.salvar(item);
         }
         limparTudo();
-        
+
     }//GEN-LAST:event_btnFazerPedidoActionPerformed
 
     private void btnCancelarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarPedidoActionPerformed
@@ -838,7 +840,7 @@ public class TelaFormularioPedidos extends javax.swing.JFrame {
                 try {
                     Connection conn = MySQLConnection.getConnection();
                     new TelaFormularioPedidos(conn).setVisible(true);
-                } catch (Exception e) {                 
+                } catch (Exception e) {
                 }
             }
         });
