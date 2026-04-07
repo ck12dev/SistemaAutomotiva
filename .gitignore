@@ -6,9 +6,12 @@ build/
 dist/
 
 # NetBeans project private files (configurações locais)
-nbproject/private/
-/nbproject/Makefile-*.mk
-lib/nblibraries.properties
+sistema-controle-de-estoque/nbproject/private/
+sistema-controle-de-estoque/nbproject/private.properties
+sistema-controle-de-estoque/nbproject/config.properties
+
+# Bibliotecas locais
+sistema-controle-de-estoque/lib/nblibraries.properties
 
 # Log files
 *.log
